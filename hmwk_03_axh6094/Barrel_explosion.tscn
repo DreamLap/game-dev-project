@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 88.7
+gravity = Vector3( 0, 9.52, 0 )
+angular_velocity = 1.05
+linear_accel = 71.2
+radial_accel = 64.37
+color = Color( 0.756863, 0.160784, 0.160784, 1 )
+
+[sub_resource type="SpatialMaterial" id=2]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id=3]
+material = SubResource( 2 )
+radius = 0.18
+height = 0.25
+
+[node name="Barrel_explosion" type="Spatial"]
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.570276 )
+amount = 89
+lifetime = 0.35
+explosiveness = 1.0
+visibility_aabb = AABB( -4, -4, -2.73911, 8, 8, 5.47821 )
+local_coords = false
+process_material = SubResource( 1 )
+draw_pass_1 = SubResource( 3 )
