@@ -182,3 +182,12 @@ func recoil():
 		#killed all zombies
 		if player.get_number_of_zombies_killed() == global.num_of_zombie_in_level:
 			get_tree().call_group("player", "next_level")
+			
+func instant_kill_zombie():
+	dead = true
+	$CollisionShape.disabled = true
+	anim_player.play("die")
+	remove_from_group("zombies")
+	explode()
+	update_HUD()
+	player.add_to_zombie_kill_counter()

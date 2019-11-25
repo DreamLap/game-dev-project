@@ -71,12 +71,35 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("shoot") and !anim_player.is_playing():
 		anim_player.play("shoot")
-		
 		var coll = raycast.get_collider()
 		if raycast.is_colliding() and coll.has_method("kill"):
-			coll.kill()
+			if instant_kill == true:
+				coll.instant_kill_zombie()
+			else:
+				coll.kill()
 			
 		elif raycast.is_colliding() and coll.has_method("explode"):
+			coll.explode()
+	
+	if Input.is_action_pressed("melee") and !anim_player.is_playing():
+		#add melee animation when created
+		var coll = raycast.get_collider()
+		if coll == null:
+			return
+		
+		var player_vec = global_transform.origin
+		var object_vec = coll.global_transform.origin
+		print(global_transform.origin)
+		print(coll.global_transform.origin)
+		
+		var distance_to_object = sqrt( pow(player_vec[0] - object_vec[0], 2) + pow(player_vec[2] - object_vec[2], 2) )
+		print("dist to obj hit: ", distance_to_object)
+		
+		if raycast.is_colliding() and coll.has_method("kill") and coll.has_method("recoil") and distance_to_object < 3 :
+			anim_player.play("shoot")
+			coll.recoil()
+			
+		elif raycast.is_colliding() and coll.has_method("explode") and distance_to_object < 3 :
 			coll.explode()
 
 func kill():
