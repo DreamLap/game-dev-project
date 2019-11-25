@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://crosshair.png" type="Texture" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://HUD_key.gd" type="Script" id=8]
 [ext_resource path="res://key_image.png" type="Texture" id=9]
 [ext_resource path="res://HUD_no_key.gd" type="Script" id=10]
-[ext_resource path="res://HUD_instant_kill.gd" type="Script" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -101,7 +100,6 @@ text = "HUD_current_hp"
 script = ExtResource( 6 )
 
 [node name="HUD_you_win" type="Label" parent="CanvasLayer"]
-visible = false
 margin_left = 589.338
 margin_top = 193.063
 margin_right = 647.858
@@ -112,7 +110,6 @@ align = 1
 script = ExtResource( 7 )
 
 [node name="HUD_key" type="Label" parent="CanvasLayer"]
-editor/display_folded = true
 margin_left = 29.0
 margin_top = 538.0
 margin_right = 123.0
@@ -139,14 +136,6 @@ text = "You need the key!!!"
 align = 1
 valign = 1
 script = ExtResource( 10 )
-
-[node name="HUD_instant_kill" type="Label" parent="CanvasLayer"]
-margin_left = 6.0
-margin_top = 24.0
-margin_right = 310.0
-margin_bottom = 163.0
-text = "HUD_instant_kill"
-script = ExtResource( 11 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 2 )
