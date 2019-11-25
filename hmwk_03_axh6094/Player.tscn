@@ -94,9 +94,9 @@ text = "HUD_current_level"
 script = ExtResource( 5 )
 
 [node name="HUD_current_hp" type="Label" parent="CanvasLayer"]
-margin_left = 1448.21
+margin_left = 1438.68
 margin_top = 3.0
-margin_right = 1552.21
+margin_right = 1542.68
 margin_bottom = 27.0
 text = "HUD_current_hp"
 script = ExtResource( 6 )

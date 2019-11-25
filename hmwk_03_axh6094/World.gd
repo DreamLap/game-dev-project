@@ -27,6 +27,10 @@ func _ready():
 	if health_packs != null :
 		_addHealthPacks( health_packs.get( 'tscn', null ), health_packs.get( 'instances', [] ) )
 		
+	var super_health_packs = levelData.get ( 'SUPER_HEALTH_PACK', null)
+	if super_health_packs != null :
+		_addSuper_HealthPacks( super_health_packs.get( 'tscn', null ), super_health_packs.get( 'instances', [] ) )
+		
 	var barrels = levelData.get ( 'BARRELS', null)
 	if barrels != null :
 		_addBarrels( barrels.get( 'tscn', null ), barrels.get( 'instances', [] ) )
@@ -157,6 +161,22 @@ func _addHealthPacks(model, instances):
 		var position = instList[0]
 		
 		inst = healthPackScene.instance()
+		inst.translation = Vector3( position[0], position[1], position[2] )
+		get_node( '.' ).add_child( inst )
+
+func _addSuper_HealthPacks( model, instances ):
+	var inst
+	
+	if model == null:
+		print('no SUPER_HEALTH_PACK model loaded...')
+		return
+	
+	var superhealthPackScene = load(model)
+	
+	for instList in instances:
+		var position = instList[0]
+		
+		inst = superhealthPackScene.instance()
 		inst.translation = Vector3( position[0], position[1], position[2] )
 		get_node( '.' ).add_child( inst )
 
