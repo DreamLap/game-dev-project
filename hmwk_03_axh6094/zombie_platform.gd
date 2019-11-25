@@ -38,8 +38,6 @@ func _process(delta):
 		timer = 0
 		if time_check != 0.5:
 			time_check = time_check - 0.5
-			print(time_check)
-	pass
 
 func explode():
 	platform_hp = platform_hp - 1

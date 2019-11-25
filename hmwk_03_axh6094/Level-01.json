@@ -1,60 +1,75 @@
 {
-  "arenaSize" : [ 30, 30 ],
+  "arenaSize": [ 30, 30 ],
 
-  "PILLARS" : {
-    "tscn" : "res://Pillar.tscn",
+  "PILLARS": {
+    "tscn": "res://Pillar.tscn",
 
-    "instances" : [
-      [ [   10,    3,   15 ] ],
-      [ [   3,    3,   -4  ] ],
-      [ [   -4,    3,   10 ] ],
-      [ [   -7,    3,   -4 ] ],
-      [ [   5,    3,    22 ] ],
-      [ [   -15,    3,  15 ] ],
-      [ [   -15,    3,   0 ] ],
-      [ [   10,    3,    0 ] ],
+    "instances": [
+      [ [ 10, 3, 15 ] ],
+      [ [ 3, 3, -4 ] ],
+      [ [ -4, 3, 10 ] ],
+      [ [ -7, 3, -4 ] ],
+      [ [ 5, 3, 22 ] ],
+      [ [ -15, 3, 15 ] ],
+      [ [ -15, 3, 0 ] ],
+      [ [ 10, 3, 0 ] ]
 
-      
+
     ]
   },
 
-  "ZOMBIES" : {
-    "tscn"  : "res://Zombie.tscn",
+  "ZOMBIES": {
+    "tscn": "res://Zombie.tscn",
 
-    "instances" : [
-      [ [  -2,  3,  -8  ] ],
-      [ [   0,  3,  -10 ] ],
-      [ [  -9,  3,  -14 ] ],
-      [ [   6,  3,  -15 ] ],
-      [ [   2,  3,  -9  ] ] ]
+    "instances": [
+      [ [ -2, 3, -8 ] ],
+      [ [ 0, 3, -10 ] ],
+      [ [ -9, 3, -14 ] ],
+      [ [ 6, 3, -15 ] ],
+      [ [ 2, 3, -9 ] ]
+    ]
   },
 
   "HEALTH_PACK": {
-    "tscn"     : "res://Health_pack.tscn",
+    "tscn": "res://Health_pack.tscn",
 
-    "instances"  :[
-      [ [  10,  2,  -4  ] ],
-      [ [  4,  2,    4  ] ],
-      [ [  2,  2,    10  ] ] ]
+    "instances": [
+      [ [ 10, 2, -4 ] ],
+      [ [ 4, 2, 4 ] ],
+      [ [ 2, 2, 10 ] ]
+    ]
+
+  },
+
+  "SUPER_HEALTH_PACK": {
+    "tscn": "res://super_health_pack.tscn",
+
+    "instances": [
+      [ [ 15, 2, -10 ] ],
+      [ [ 10, 2, 10 ] ],
+      [ [ 0, 2, -20 ] ]
+    ]
 
   },
 
   "BARRELS": {
-    "tscn"     : "res://fire_barrel.tscn",
+    "tscn": "res://fire_barrel.tscn",
 
-    "instances"  :[
-      [ [  -2,  1,   -10 ] ],
-      [ [   3,  1,   9  ] ] ]
+    "instances": [
+      [ [ -2, 1, -10 ] ],
+      [ [ 3, 1, 9 ] ]
+    ]
 
   },
 
   "ZOMBIE_PLATFORM": {
-    "platform_tscn"     : "res://zombie_platform.tscn",
-    "zombie_tscn"       : "res://Zombie.tscn",
-    "special_zombie_tscn"       : "res://special_zombie.tscn",
+    "platform_tscn": "res://zombie_platform.tscn",
+    "zombie_tscn": "res://Zombie.tscn",
+    "special_zombie_tscn": "res://special_zombie.tscn",
 
-    "instances"  :[
-      [ [  10,  4,   10 ] ] ],
+    "instances": [
+      [ [ 10, 4, 10 ] ]
+    ],
 
     "zombie_count": "10"
   },

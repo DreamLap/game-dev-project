@@ -22,6 +22,7 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	get_tree().call_group("zombies", "set_player", self)
 	get_tree().call_group("special_zombies", "set_player", self)
+	get_tree().call_group("health_boost", "set_player", self)
 	get_tree().call_group("health_pack", "set_player", self)
 	get_tree().call_group("explosive_barrel", "set_player", self)
 	get_tree().call_group("key", "set_player", self)
@@ -65,37 +66,17 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("shoot") and !anim_player.is_playing():
 		anim_player.play("shoot")
+		
 		var coll = raycast.get_collider()
 		if raycast.is_colliding() and coll.has_method("kill"):
 			coll.kill()
 			
 		elif raycast.is_colliding() and coll.has_method("explode"):
 			coll.explode()
-	
-	if Input.is_action_pressed("melee") and !anim_player.is_playing():
-		#add melee animation when created
-		var coll = raycast.get_collider()
-		if coll == null:
-			return
-		
-		var player_vec = global_transform.origin
-		var object_vec = coll.global_transform.origin
-		print(global_transform.origin)
-		print(coll.global_transform.origin)
-		
-		var distance_to_object = sqrt( pow(player_vec[0] - object_vec[0], 2) + pow(player_vec[2] - object_vec[2], 2) )
-		print("dist to obj hit: ", distance_to_object)
-		
-		if raycast.is_colliding() and coll.has_method("kill") and coll.has_method("recoil") and distance_to_object < 3 :
-			anim_player.play("shoot")
-			coll.recoil()
-			
-		elif raycast.is_colliding() and coll.has_method("explode") and distance_to_object < 3 :
-			coll.explode()
 
 func kill():
 	current_hp = current_hp - 1
-	if current_hp == 0:
+	if current_hp == 100:
 		print('You died.. try again.')
 		global.num_of_zombie_in_level = 0
 		get_tree().reload_current_scene()
@@ -122,6 +103,17 @@ func heal(amount):
 		current_hp = current_hp + amount
 	HUD_current_hp._update_current_hp(current_hp)
 	
+func heal_boost():
+	current_hp += 4
+	max_hp += 4
+	HUD_current_hp._update_current_hp(current_hp)
+	yield(get_tree().create_timer(30), "timeout")
+	if(current_hp < 5):
+		return
+	current_hp -= 4
+	max_hp -= 4
+	HUD_current_hp._update_current_hp(current_hp)
+
 func get_number_of_zombies_killed():
 	return zombies_killed
 
@@ -130,8 +122,10 @@ func add_to_zombie_kill_counter():
 
 func no_key_message():
 	HUD_no_key._no_key()
+	
 func no_key_leave():
 	HUD_no_key._exited_area()
+	
 func key_pick_up():
 	key = true
 	HUD_key._player_obtained()
