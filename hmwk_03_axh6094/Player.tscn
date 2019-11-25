@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://crosshair.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://HUD_key.gd" type="Script" id=8]
 [ext_resource path="res://key_image.png" type="Texture" id=9]
 [ext_resource path="res://HUD_no_key.gd" type="Script" id=10]
+[ext_resource path="res://HUD_instant_kill.gd" type="Script" id=11]
+[ext_resource path="res://HUD_health_boost.gd" type="Script" id=12]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -136,6 +138,21 @@ text = "You need the key!!!"
 align = 1
 valign = 1
 script = ExtResource( 10 )
+
+[node name="HUD_instant_kill" type="Label" parent="CanvasLayer"]
+margin_left = 6.0
+margin_top = 24.0
+margin_right = 310.0
+margin_bottom = 163.0
+text = "HUD_instant_kill"
+script = ExtResource( 11 )
+
+[node name="HUD_health_boost" type="Label" parent="CanvasLayer"]
+margin_top = 46.0
+margin_right = 121.0
+margin_bottom = 69.0
+text = "HUD_health_boost"
+script = ExtResource( 12 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 2 )

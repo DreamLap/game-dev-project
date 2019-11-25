@@ -7,6 +7,8 @@ var current_hp = 8
 var max_hp = 8
 var zombies_killed = 0
 var key = false
+var instant_kill_counter = 0
+var instant_kill = false
 
 onready var anim_player = $AnimationPlayer
 onready var raycast = $RayCast
@@ -15,6 +17,8 @@ onready var HUD_current_hp = $CanvasLayer/HUD_current_hp
 onready var HUD_you_win = $CanvasLayer/HUD_you_win
 onready var HUD_key = $CanvasLayer/HUD_key
 onready var HUD_no_key = $CanvasLayer/HUD_no_key
+onready var HUD_instant_kill = $CanvasLayer/HUD_instant_kill
+onready var HUD_health_boost = $CanvasLayer/HUD_health_boost
 
 func _ready():
 	add_to_group("player")
@@ -121,7 +125,29 @@ func heal(amount):
 	else: 
 		current_hp = current_hp + amount
 	HUD_current_hp._update_current_hp(current_hp)
-	
+
+func heal_boost():
+	current_hp += 4
+	max_hp += 4
+	HUD_current_hp._update_current_hp(current_hp)
+	HUD_health_boost.Health_boost_enable()
+	yield(get_tree().create_timer(30), "timeout")
+	if(current_hp < 5):
+		return
+	current_hp -= 4
+	max_hp -= 4
+	HUD_current_hp._update_current_hp(current_hp)
+
+func instant_kill():
+	instant_kill_counter += 1
+	instant_kill = true
+	HUD_instant_kill.instant_kill_enable()
+	yield(get_tree().create_timer(30), "timeout")
+	if instant_kill_counter == 1:
+		instant_kill = false
+	instant_kill_counter -= 1
+
+
 func get_number_of_zombies_killed():
 	return zombies_killed
 
