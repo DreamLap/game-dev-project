@@ -11,10 +11,14 @@ var explodeScene = load( "res://Barrel_explosion.tscn" )
 
 var player = null
 var dead = false
-
+var collision_info = Vector3(0,0,0)
 var reset_attack = false
 var timer = 0
+var time = 0
 var timer_limit = 1 # seconds
+var dir = 0
+var temp1
+var temp2
 
 
 func _ready():
@@ -24,17 +28,13 @@ func _ready():
 	self.set_player()
 
 func _physics_process(delta):
-		
 	if dead:
 		return
 	if player == null:
 		return
-	
 	var vec_to_player = player.translation - translation
 	var distance_to_player = sqrt(vec_to_player[0] * vec_to_player[0] + vec_to_player[2] * vec_to_player[2])
-	if MAX_DIST_TO_HUMAN < distance_to_player:
-		vec_to_player[0] = (rng.randf_range(0,100))
-		vec_to_player[2] = (rng.randf_range(0,100))
+	
 	vec_to_player = vec_to_player.normalized()
 	raycast.cast_to = vec_to_player * 1.5
 	
@@ -48,7 +48,10 @@ func _physics_process(delta):
 			timer = 0
 		return
 	
-	var collision_info = move_and_collide(vec_to_player * MOVE_SPEED * delta)
+	if MAX_DIST_TO_HUMAN > distance_to_player:
+		follow(vec_to_player, MOVE_SPEED, delta)
+	else:
+		wander(vec_to_player, MOVE_SPEED, delta)
 	
 	#Zombie falls to ground
 	if collision_info == null:
@@ -60,6 +63,35 @@ func _physics_process(delta):
 		if coll != null and coll.name == "Player":
 			reset_attack = true
 			coll.kill()
+
+
+func follow(vec, spd, del):
+	time = 0
+	collision_info = move_and_collide(vec * spd * del)
+
+func wander(vec, spd, del):
+	if(time > 10):
+		dir = 0
+		wait(del)
+		return
+	time = time + del
+	if dir == 0:
+		temp1 = (rand_range(-100,100))
+		temp2 = (rand_range(-100,100))
+		dir = 1
+	vec[0] = temp1
+	vec[2] = temp2
+	vec = vec.normalized()
+	collision_info = move_and_collide(vec * spd * del)
+
+
+func wait(del):
+	if (time > 20):
+		time = 0
+		return
+	time = time + del
+	collision_info = move_and_collide(Vector3(0,0,0))
+	
 
 func kill():
 	if HIT_POINTS > 0:
@@ -73,7 +105,6 @@ func kill():
 		update_HUD()
 		player.add_to_zombie_kill_counter()
 		#killed all zombies
-
 
 func explode():
 	var special_zombie_pos = global_transform.origin
@@ -151,12 +182,3 @@ func recoil():
 		#killed all zombies
 		if player.get_number_of_zombies_killed() == global.num_of_zombie_in_level:
 			get_tree().call_group("player", "next_level")
-			
-func instant_kill_zombie():
-	dead = true
-	$CollisionShape.disabled = true
-	anim_player.play("die")
-	remove_from_group("zombies")
-	explode()
-	update_HUD()
-	player.add_to_zombie_kill_counter()

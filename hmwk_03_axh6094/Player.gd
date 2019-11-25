@@ -6,8 +6,8 @@ var num_of_levels = 3
 var current_hp = 8
 var max_hp = 8
 var zombies_killed = 0
-var instant_kill_counter = 0
 var key = false
+var instant_kill_counter = 0
 var instant_kill = false
 
 onready var anim_player = $AnimationPlayer
@@ -18,6 +18,7 @@ onready var HUD_you_win = $CanvasLayer/HUD_you_win
 onready var HUD_key = $CanvasLayer/HUD_key
 onready var HUD_no_key = $CanvasLayer/HUD_no_key
 onready var HUD_instant_kill = $CanvasLayer/HUD_instant_kill
+onready var HUD_health_boost = $CanvasLayer/HUD_health_boost
 
 func _ready():
 	add_to_group("player")
@@ -25,6 +26,7 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	get_tree().call_group("zombies", "set_player", self)
 	get_tree().call_group("special_zombies", "set_player", self)
+	get_tree().call_group("health_boost", "set_player", self)
 	get_tree().call_group("health_pack", "set_player", self)
 	get_tree().call_group("instant_kill_power_up", "set_player", self)
 	get_tree().call_group("explosive_barrel", "set_player", self)
@@ -69,40 +71,17 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("shoot") and !anim_player.is_playing():
 		anim_player.play("shoot")
+		
 		var coll = raycast.get_collider()
 		if raycast.is_colliding() and coll.has_method("kill"):
-			if instant_kill == true:
-				coll.instant_kill_zombie()
-			else:
-				coll.kill()
+			coll.kill()
 			
 		elif raycast.is_colliding() and coll.has_method("explode"):
-			coll.explode()
-	
-	if Input.is_action_pressed("melee") and !anim_player.is_playing():
-		#add melee animation when created
-		var coll = raycast.get_collider()
-		if coll == null:
-			return
-		
-		var player_vec = global_transform.origin
-		var object_vec = coll.global_transform.origin
-		print(global_transform.origin)
-		print(coll.global_transform.origin)
-		
-		var distance_to_object = sqrt( pow(player_vec[0] - object_vec[0], 2) + pow(player_vec[2] - object_vec[2], 2) )
-		print("dist to obj hit: ", distance_to_object)
-		
-		if raycast.is_colliding() and coll.has_method("kill") and coll.has_method("recoil") and distance_to_object < 3 :
-			anim_player.play("shoot")
-			coll.recoil()
-			
-		elif raycast.is_colliding() and coll.has_method("explode") and distance_to_object < 3 :
 			coll.explode()
 
 func kill():
 	current_hp = current_hp - 1
-	if current_hp == 0:
+	if current_hp == 100:
 		print('You died.. try again.')
 		global.num_of_zombie_in_level = 0
 		get_tree().reload_current_scene()
@@ -129,6 +108,18 @@ func heal(amount):
 		current_hp = current_hp + amount
 	HUD_current_hp._update_current_hp(current_hp)
 
+func heal_boost():
+	current_hp += 4
+	max_hp += 4
+	HUD_current_hp._update_current_hp(current_hp)
+	HUD_health_boost.Health_boost_enable()
+	yield(get_tree().create_timer(30), "timeout")
+	if(current_hp < 5):
+		return
+	current_hp -= 4
+	max_hp -= 4
+	HUD_current_hp._update_current_hp(current_hp)
+
 func instant_kill():
 	instant_kill_counter += 1
 	instant_kill = true
@@ -137,8 +128,8 @@ func instant_kill():
 	if instant_kill_counter == 1:
 		instant_kill = false
 	instant_kill_counter -= 1
-	
-	
+
+
 func get_number_of_zombies_killed():
 	return zombies_killed
 
@@ -147,8 +138,10 @@ func add_to_zombie_kill_counter():
 
 func no_key_message():
 	HUD_no_key._no_key()
+	
 func no_key_leave():
 	HUD_no_key._exited_area()
+	
 func key_pick_up():
 	key = true
 	HUD_key._player_obtained()

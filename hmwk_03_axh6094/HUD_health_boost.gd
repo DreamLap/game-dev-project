@@ -10,9 +10,9 @@ var counter = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_percent_visible(0)
-	set_text('Instant kill: ' )
+	set_text('Health Boost: ' )
 
-func instant_kill_enable():
+func Health_boost_enable():
 	counter += 1
 	time_lapsed = 0
 	timer = 0
@@ -28,4 +28,4 @@ func instant_kill_enable():
 func _process(delta):
 	timer += delta 
 	time_lapsed = power_up_time_limit - timer
-	set_text('Instant kill: ' + str(time_lapsed) )
+	set_text('Health Boost: ' + str(time_lapsed) )
