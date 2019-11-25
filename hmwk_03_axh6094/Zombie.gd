@@ -1,7 +1,7 @@
 extends KinematicBody
 
 const MOVE_SPEED = 3
-var HIT_POINTS = 1
+var HIT_POINTS = 10
 var MAX_DIST_TO_HUMAN = 25
 var rng = RandomNumberGenerator.new()
 onready var raycast = $RayCast
@@ -12,7 +12,7 @@ var dead = false
 
 var reset_attack = false
 var timer = 0
-var timer_limit = 2 # seconds
+var timer_limit = 1 # seconds
 
 
 func _ready():
@@ -60,7 +60,7 @@ func _physics_process(delta):
 			coll.kill()
 
 func kill():
-	if HIT_POINTS != 0:
+	if HIT_POINTS > 0:
 		HIT_POINTS = HIT_POINTS - 1
 	else:
 		dead = true
@@ -81,3 +81,25 @@ func set_player():
 	
 func update_HUD():
 	get_tree().call_group("player", "update_HUD_zombie_count")
+	
+func recoil():
+	reset_attack = true
+	timer = 0
+	rng.randomize()
+	var random_melee_damage = rng.randi_range(1, 4)
+	print("HP: ", HIT_POINTS)
+	print("melee dmg: " ,random_melee_damage)
+	HIT_POINTS = HIT_POINTS - random_melee_damage
+	
+	if HIT_POINTS > 0:
+		HIT_POINTS = HIT_POINTS - 1
+	else:
+		dead = true
+		$CollisionShape.disabled = true
+		anim_player.play("die")
+		remove_from_group("special_zombies")
+		update_HUD()
+		player.add_to_zombie_kill_counter()
+		#killed all zombies
+		if player.get_number_of_zombies_killed() == global.num_of_zombie_in_level:
+			get_tree().call_group("player", "next_level")

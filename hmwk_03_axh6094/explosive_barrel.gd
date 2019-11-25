@@ -14,7 +14,7 @@ func _ready():
 func explode():
 	barrel_hp = barrel_hp - 1
 	
-	if barrel_hp == 0:
+	if barrel_hp <= 0:
 		var barrel_vec = global_transform.origin
 		var player_vec = player.global_transform.origin
 		var player_dist_to_barrel = player_vec.distance_to(barrel_vec)

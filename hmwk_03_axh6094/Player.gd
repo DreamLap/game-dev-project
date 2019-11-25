@@ -81,10 +81,11 @@ func _physics_process(delta):
 		var distance_to_object = sqrt( pow(player_vec[0] - object_vec[0], 2) + pow(player_vec[2] - object_vec[2], 2) )
 		print("dist to obj hit: ", distance_to_object)
 		
-		if raycast.is_colliding() and coll.has_method("kill") and distance_to_object < 2.7 :
-			coll.kill()
+		if raycast.is_colliding() and coll.has_method("kill") and coll.has_method("recoil") and distance_to_object < 3 :
+			anim_player.play("shoot")
+			coll.recoil()
 			
-		elif raycast.is_colliding() and coll.has_method("explode") and distance_to_object < 2.7 :
+		elif raycast.is_colliding() and coll.has_method("explode") and distance_to_object < 3 :
 			coll.explode()
 
 func kill():
