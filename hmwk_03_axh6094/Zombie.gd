@@ -70,8 +70,6 @@ func kill():
 		update_HUD()
 		player.add_to_zombie_kill_counter()
 		#killed all zombies
-		if player.get_number_of_zombies_killed() == global.num_of_zombie_in_level:
-			get_tree().call_group("player", "next_level")
 
 func set_player():
 	for player_nodes in get_tree().get_nodes_in_group('player'):
