@@ -112,6 +112,7 @@ align = 1
 script = ExtResource( 7 )
 
 [node name="HUD_key" type="Label" parent="CanvasLayer"]
+editor/display_folded = true
 margin_left = 29.0
 margin_top = 538.0
 margin_right = 123.0
