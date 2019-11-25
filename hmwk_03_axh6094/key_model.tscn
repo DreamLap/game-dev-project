@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Health_pack_physics.gd" type="Script" id=1]
+[ext_resource path="res://spin_item_physics.gd" type="Script" id=1]
 [ext_resource path="res://Key.gd" type="Script" id=2]
 [ext_resource path="res://Key2.obj" type="ArrayMesh" id=3]
 

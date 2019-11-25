@@ -33,11 +33,15 @@ func _ready():
 		
 	var zombie_platform = levelData.get ( 'ZOMBIE_PLATFORM', null)
 	if zombie_platform != null :
-		_addZombiePlatform( zombie_platform.get( 'zombie_tscn', null ), zombie_platform.get( 'platform_tscn', null ), zombie_platform.get( 'instances', [] ), zombie_platform.get( 'zombie_count', null ) )
+		_addZombiePlatform( zombie_platform.get( 'zombie_tscn', null ), zombie_platform.get( 'platform_tscn', null ), zombie_platform.get( 'instances', [] ))
 		
 	var KEY_AND_EXIT = levelData.get ( 'KEY_AND_EXIT', null)
 	if KEY_AND_EXIT != null :
 		_addKeyandExit( KEY_AND_EXIT.get( 'key_tscn', null ), KEY_AND_EXIT.get( 'key_instance', [] ), KEY_AND_EXIT.get( 'door_tscn', null ), KEY_AND_EXIT.get( 'door_instance', [] ))
+	
+	var instant_kill = levelData.get ( 'INSTANT_KILL_POWER', null)
+	if instant_kill != null :
+		_addInstantKill( instant_kill.get( 'tscn', null), instant_kill.get( 'instances', []) )
 		
 		
 func _addArena(arenaSize):
@@ -176,7 +180,7 @@ func _addBarrels(model, instances):
 		inst.translation = Vector3( position[0], position[1], position[2] )
 		get_node( '.' ).add_child( inst )
 		
-func _addZombiePlatform(zombie_model, platform_model, instances, zombie_count):
+func _addZombiePlatform(zombie_model, platform_model, instances):
 	var inst
 	
 	if platform_model == null:
@@ -187,9 +191,6 @@ func _addZombiePlatform(zombie_model, platform_model, instances, zombie_count):
 		print('no ZOMBIE model loaded...')
 		return
 		
-	if zombie_count == null:
-		print('no ZOMBIE_COUNT loaded...')
-		return
 	
 	var zombiePlatformScene = load(platform_model)
 	
@@ -197,7 +198,21 @@ func _addZombiePlatform(zombie_model, platform_model, instances, zombie_count):
 		var position = instList[0]
 		inst = zombiePlatformScene.instance()
 		inst.translation = Vector3( position[0], position[1], position[2] )
-		global.num_of_zombie_in_level = global.num_of_zombie_in_level + int(zombie_count)
+		get_node( '.' ).add_child( inst )
+
+func _addInstantKill(model, instances):
+	var inst
+	
+	if model == null:
+		print('no INSTANT_KILL model loaded...')
+		return
+	
+	var instantKillScene = load(model)
+	
+	for instList in instances:
+		var position = instList[0]
+		inst = instantKillScene.instance()
+		inst.translation = Vector3( position[0], position[1], position[2] )
 		get_node( '.' ).add_child( inst )
 
 func _getLevelData( levelNumber ):

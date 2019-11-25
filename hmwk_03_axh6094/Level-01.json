@@ -55,8 +55,15 @@
 
     "instances"  :[
       [ [  10,  4,   10 ] ] ],
+  },
 
-    "zombie_count": "10"
+  "INSTANT_KILL_POWER": {
+    "tscn"     : "res://instant_kill_skull.tscn",
+
+
+    "instances"  :[
+      [ [  10,  2.5,   -15 ] ],
+      [ [  -19,  2.5,   15 ] ] ],
   },
 
   "KEY_AND_EXIT": {

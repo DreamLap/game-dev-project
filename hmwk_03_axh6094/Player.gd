@@ -6,7 +6,9 @@ var num_of_levels = 3
 var current_hp = 8
 var max_hp = 8
 var zombies_killed = 0
+var instant_kill_counter = 0
 var key = false
+var instant_kill = false
 
 onready var anim_player = $AnimationPlayer
 onready var raycast = $RayCast
@@ -15,6 +17,7 @@ onready var HUD_current_hp = $CanvasLayer/HUD_current_hp
 onready var HUD_you_win = $CanvasLayer/HUD_you_win
 onready var HUD_key = $CanvasLayer/HUD_key
 onready var HUD_no_key = $CanvasLayer/HUD_no_key
+onready var HUD_instant_kill = $CanvasLayer/HUD_instant_kill
 
 func _ready():
 	add_to_group("player")
@@ -23,6 +26,7 @@ func _ready():
 	get_tree().call_group("zombies", "set_player", self)
 	get_tree().call_group("special_zombies", "set_player", self)
 	get_tree().call_group("health_pack", "set_player", self)
+	get_tree().call_group("instant_kill_power_up", "set_player", self)
 	get_tree().call_group("explosive_barrel", "set_player", self)
 	get_tree().call_group("key", "set_player", self)
 	get_tree().call_group("door", "set_player", self)
@@ -67,7 +71,10 @@ func _physics_process(delta):
 		anim_player.play("shoot")
 		var coll = raycast.get_collider()
 		if raycast.is_colliding() and coll.has_method("kill"):
-			coll.kill()
+			if instant_kill == true:
+				coll.instant_kill_zombie()
+			else:
+				coll.kill()
 			
 		elif raycast.is_colliding() and coll.has_method("explode"):
 			coll.explode()
@@ -121,6 +128,16 @@ func heal(amount):
 	else: 
 		current_hp = current_hp + amount
 	HUD_current_hp._update_current_hp(current_hp)
+
+func instant_kill():
+	instant_kill_counter += 1
+	instant_kill = true
+	HUD_instant_kill.instant_kill_enable()
+	yield(get_tree().create_timer(30), "timeout")
+	if instant_kill_counter == 1:
+		instant_kill = false
+	instant_kill_counter -= 1
+	
 	
 func get_number_of_zombies_killed():
 	return zombies_killed
