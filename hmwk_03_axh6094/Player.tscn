@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://crosshair.png" type="Texture" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://HUD_current_level.gd" type="Script" id=5]
 [ext_resource path="res://HUD_current_hp.gd" type="Script" id=6]
 [ext_resource path="res://HUD_you_win.gd" type="Script" id=7]
+[ext_resource path="res://HUD_key.gd" type="Script" id=8]
+[ext_resource path="res://key_image.png" type="Texture" id=9]
+[ext_resource path="res://HUD_no_key.gd" type="Script" id=10]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -75,9 +78,9 @@ texture = ExtResource( 3 )
 hframes = 4
 
 [node name="HUD_zombies_left" type="Label" parent="CanvasLayer"]
-margin_left = 476.0
+margin_left = 733.0
 margin_top = 4.0
-margin_right = 530.0
+margin_right = 851.0
 margin_bottom = 25.0
 text = "HUD_zombies_left"
 script = ExtResource( 4 )
@@ -89,22 +92,50 @@ text = "HUD_current_level"
 script = ExtResource( 5 )
 
 [node name="HUD_current_hp" type="Label" parent="CanvasLayer"]
-margin_left = 927.0
+margin_left = 1448.21
 margin_top = 3.0
-margin_right = 1027.0
+margin_right = 1552.21
 margin_bottom = 27.0
 text = "HUD_current_hp"
 script = ExtResource( 6 )
 
 [node name="HUD_you_win" type="Label" parent="CanvasLayer"]
-margin_left = 294.088
+margin_left = 589.338
 margin_top = 193.063
-margin_right = 352.608
+margin_right = 647.858
 margin_bottom = 215.063
 rect_scale = Vector2( 7.39, 5.32 )
 text = "You win!"
 align = 1
 script = ExtResource( 7 )
+
+[node name="HUD_key" type="Label" parent="CanvasLayer"]
+margin_left = 29.0
+margin_top = 538.0
+margin_right = 123.0
+margin_bottom = 588.0
+align = 1
+valign = 1
+script = ExtResource( 8 )
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD_key"]
+margin_left = -125.01
+margin_top = 198.61
+margin_right = 824.99
+margin_bottom = 1037.61
+rect_scale = Vector2( 0.37, 0.19 )
+texture = ExtResource( 9 )
+
+[node name="HUD_no_key" type="Label" parent="CanvasLayer"]
+margin_left = 192.243
+margin_top = 74.5648
+margin_right = 367.243
+margin_bottom = 116.565
+rect_scale = Vector2( 6.69, 7.47 )
+text = "You need the key!!!"
+align = 1
+valign = 1
+script = ExtResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 2 )

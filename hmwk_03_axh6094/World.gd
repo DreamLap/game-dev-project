@@ -12,6 +12,7 @@ func _ready():
 	var arenaSize = levelData.get('arenaSize', null)
 	if arenaSize != null:
 		_addArena( arenaSize )
+	OS.window_fullscreen = true
 
 
 	var pillar = levelData.get( 'PILLARS', null )
@@ -33,6 +34,10 @@ func _ready():
 	var zombie_platform = levelData.get ( 'ZOMBIE_PLATFORM', null)
 	if zombie_platform != null :
 		_addZombiePlatform( zombie_platform.get( 'zombie_tscn', null ), zombie_platform.get( 'platform_tscn', null ), zombie_platform.get( 'instances', [] ), zombie_platform.get( 'zombie_count', null ) )
+		
+	var KEY_AND_EXIT = levelData.get ( 'KEY_AND_EXIT', null)
+	if KEY_AND_EXIT != null :
+		_addKeyandExit( KEY_AND_EXIT.get( 'key_tscn', null ), KEY_AND_EXIT.get( 'key_instance', [] ), KEY_AND_EXIT.get( 'door_tscn', null ), KEY_AND_EXIT.get( 'door_instance', [] ))
 		
 		
 func _addArena(arenaSize):
@@ -105,6 +110,39 @@ func _addZombies(model, instances):
 		inst.translation = Vector3( position[0], position[1], position[2] )
 		get_node( '.' ).add_child( inst )
 		global.num_of_zombie_in_level = global.num_of_zombie_in_level + 1
+
+func _addKeyandExit(keymodel, keyinstance, doormodel, doorinstance):
+	var keyinst
+	var doorinst
+	var index = 0
+	
+	if keymodel == null:
+		print('no Key model loaded...')
+		return
+	
+	var keyScene = load(keymodel)
+	
+	if doormodel == null:
+		print('no Door model loaded...')
+		return
+	
+	var doorScene = load(doormodel)
+
+	
+	for instList in keyinstance:
+		var position = instList[0]
+		
+		keyinst = keyScene.instance()
+		keyinst.translation = Vector3( position[0], position[1], position[2] )
+		get_node( '.' ).add_child( keyinst )
+		
+	for instList in doorinstance:
+		var position = instList[0]
+		
+		doorinst = doorScene.instance()
+		doorinst.translation = Vector3( position[0], position[1], position[2] )
+		get_node( '.' ).add_child( doorinst )
+
 
 func _addHealthPacks(model, instances):
 	var inst

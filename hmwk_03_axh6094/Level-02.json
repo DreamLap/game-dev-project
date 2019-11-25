@@ -1,60 +1,79 @@
 {
-  "arenaSize" : [ 15, 15 ],
+  "arenaSize": [ 50, 50 ],
 
-  "PILLARS" : {
-    "tscn" : "res://Pillar.tscn",
+  "PILLARS": {
+    "tscn": "res://Pillar.tscn",
 
-    "instances" : [
-      [ [   -12,    3,   -10 ] ],
-      [ [   -3,    3,   8 ] ],
-      [ [   10,    3,   -3 ] ],
-      [ [   -2,    3,   -11 ] ],
+    "instances": [
+      [ [ -12, 3, -10 ] ],
+      [ [ -3, 3, 8 ] ],
+      [ [ 10, 3, -3 ] ],
+      [ [ -2, 3, -11 ] ]
     ]
   },
 
-  "ZOMBIES" : {
-    "tscn"  : "res://Zombie.tscn",
+  "ZOMBIES": {
+    "tscn": "res://Zombie.tscn",
 
-    "instances" : [
-      [ [  -1,  3,  -4  ] ],
-      [ [  -1,  3,  12  ] ],
-      [ [   6,  3,  -11 ] ],
-      [ [  -13,  3,  -6 ] ],
-      [ [  -5,  3,  -11 ] ],
-      [ [   0,  3,  -4  ] ],
-      [ [ -10,  3,   4  ] ],
-      [ [ -8,  3,   7   ] ],
-      [ [ -11,  3,  -1  ] ],
-      [ [  -6,  3,   3  ] ],
-      [ [ -11,  3,  -3  ] ] ]
+    "instances": [
+      [ [ -1, 3, -4 ] ],
+      [ [ -1, 3, 12 ] ],
+      [ [ 6, 3, -11 ] ],
+      [ [ -13, 3, -6 ] ],
+      [ [ -5, 3, -11 ] ],
+      [ [ 0, 3, -4 ] ],
+      [ [ -10, 3, 4 ] ],
+      [ [ -8, 3, 7 ] ],
+      [ [ -11, 3, -1 ] ],
+      [ [ -6, 3, 3 ] ],
+      [ [ -11, 3, -3 ] ]
+    ]
   },
 
   "HEALTH_PACK": {
-    "tscn"     : "res://Health_pack.tscn",
+    "tscn": "res://Health_pack.tscn",
 
-    "instances"  :[
-      [ [  2,  2,   2  ] ],
-      [ [  -4,  2,   -4  ] ] ]
+    "instances": [
+      [ [ 2, 2, 2 ] ],
+      [ [ -4, 2, -4 ] ]
+    ]
 
   },
 
   "BARRELS": {
-    "tscn"     : "res://fire_barrel.tscn",
+    "tscn": "res://fire_barrel.tscn",
 
-    "instances"  :[
-      [ [  -10,  1,  6  ] ],
-      [ [  3,  1,    9  ] ] ]
+    "instances": [
+      [ [ -10, 1, 6 ] ],
+      [ [ 3, 1, 9 ] ]
+    ]
 
   },
 
   "ZOMBIE_PLATFORM": {
-    "platform_tscn"     : "res://zombie_platform.tscn",
-    "zombie_tscn"       : "res://Zombie.tscn",
+    "platform_tscn": "res://zombie_platform.tscn",
+    "zombie_tscn": "res://Zombie.tscn",
 
-    "instances"  :[
-      [ [  7,  7,   7 ] ] ],
+    "instances": [
+      [ [ 7, 7, 7 ] ]
+    ],
 
     "zombie_count": "10"
+  },
+
+  "KEY_AND_EXIT": {
+    "key_tscn": "res://key_model.tscn",
+    "door_tscn": "res://stargate/door.tscn",
+
+    "key_instance": [
+      [ [ -45, 2, -45 ] ]
+    ],
+
+    "door_instance": [
+      [ [ 45, 2, 45 ] ]
+    ]
+
   }
+
 
 }

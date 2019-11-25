@@ -1,5 +1,5 @@
 {
-  "arenaSize" : [ 25, 25 ],
+  "arenaSize" : [ 30, 30 ],
 
   "PILLARS" : {
     "tscn" : "res://Pillar.tscn",
@@ -57,6 +57,20 @@
       [ [  10,  4,   10 ] ] ],
 
     "zombie_count": "10"
+  },
+
+  "KEY_AND_EXIT": {
+    "key_tscn": "res://key_model.tscn",
+    "door_tscn": "res://stargate/door.tscn",
+
+    "key_instance": [
+      [ [ -25, 2, -25 ] ]
+    ],
+
+    "door_instance": [
+      [ [ 25, 2, 25 ] ]
+    ]
+
   }
 
 

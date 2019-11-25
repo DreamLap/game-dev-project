@@ -6,12 +6,15 @@ var num_of_levels = 3
 var current_hp = 8
 var max_hp = 8
 var zombies_killed = 0
+var key = false
 
 onready var anim_player = $AnimationPlayer
 onready var raycast = $RayCast
 onready var HUD_zombies_left = $CanvasLayer/HUD_zombies_left
 onready var HUD_current_hp = $CanvasLayer/HUD_current_hp
 onready var HUD_you_win = $CanvasLayer/HUD_you_win
+onready var HUD_key = $CanvasLayer/HUD_key
+onready var HUD_no_key = $CanvasLayer/HUD_no_key
 
 func _ready():
 	add_to_group("player")
@@ -21,6 +24,8 @@ func _ready():
 	get_tree().call_group("special_zombies", "set_player", self)
 	get_tree().call_group("health_pack", "set_player", self)
 	get_tree().call_group("explosive_barrel", "set_player", self)
+	get_tree().call_group("key", "set_player", self)
+	get_tree().call_group("door", "set_player", self)
 	HUD_current_hp._update_current_hp(current_hp)
 	
 	
@@ -102,3 +107,11 @@ func get_number_of_zombies_killed():
 
 func add_to_zombie_kill_counter():
 	zombies_killed = zombies_killed + 1
+
+func no_key_message():
+	HUD_no_key._no_key()
+func no_key_leave():
+	HUD_no_key._exited_area()
+func key_pick_up():
+	key = true
+	HUD_key._player_obtained()
