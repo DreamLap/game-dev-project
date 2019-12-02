@@ -41,7 +41,6 @@ func _process(delta):
 
 func explode():
 	platform_hp = platform_hp - 1
-	print('platform hit')
 	
 	if platform_hp == 0:
 		var platform_vec = global_transform.origin

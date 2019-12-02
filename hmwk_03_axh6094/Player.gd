@@ -9,6 +9,8 @@ var zombies_killed = 0
 var key = false
 var instant_kill_counter = 0
 var instant_kill = false
+var inst
+var time = 0
 
 onready var anim_player = $AnimationPlayer
 onready var raycast = $RayCast
@@ -22,6 +24,7 @@ onready var HUD_health_boost = $CanvasLayer/HUD_health_boost
 
 func _ready():
 	add_to_group("player")
+	_addSword()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	yield(get_tree(), "idle_frame")
 	get_tree().call_group("zombies", "set_player", self)
@@ -43,11 +46,9 @@ func _input(event):
 		rotation_degrees.x -= MOUSE_SENS * event.relative.y
 		if deg2rad(rotation_degrees.x) > deg2rad(90):
 			rotation_degrees.x = 90
-			print("UP boundry")
 		elif deg2rad(rotation_degrees.x) < deg2rad(-90):
 			#bugs out when I do -90 degrees... looks in the opposite direction
 			rotation_degrees.x = -89
-			print("DOWN boundry")
 
 func _process(delta):
 	if Input.is_action_pressed("exit"):
@@ -57,6 +58,7 @@ func _process(delta):
 
 func _physics_process(delta):
 	var move_vec = Vector3()
+	time = time - delta
 	if Input.is_action_pressed("move_forwards"):
 		move_vec.z -= 1
 	if Input.is_action_pressed("move_backwards"):
@@ -72,6 +74,8 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("shoot") and !anim_player.is_playing():
 		anim_player.play("shoot")
+		get_tree().call_group("zombies", "fol_time")
+		get_tree().call_group("special_zombies", "fol_time")
 		var coll = raycast.get_collider()
 		if raycast.is_colliding() and coll.has_method("kill"):
 			if instant_kill == true:
@@ -85,8 +89,10 @@ func _physics_process(delta):
 		elif raycast.is_colliding() and coll.has_method("shot_npc"):
 			coll.shot_npc()
 	
-	if Input.is_action_pressed("melee") and !anim_player.is_playing():
+	if Input.is_action_pressed("melee") and !anim_player.is_playing() and (time<0):
 		#add melee animation when created
+		time = 1
+		swing()
 		var coll = raycast.get_collider()
 		if coll == null:
 			return
@@ -97,13 +103,37 @@ func _physics_process(delta):
 		var distance_to_object = sqrt( pow(player_vec[0] - object_vec[0], 2) + pow(player_vec[2] - object_vec[2], 2) )
 		
 		if raycast.is_colliding() and coll.has_method("kill") and coll.has_method("recoil") and distance_to_object < 3 :
-			anim_player.play("shoot")
-			coll.recoil()
+			if instant_kill == true:
+				coll.instant_kill_zombie()
+			else:
+				coll.recoil()
 			
 		elif raycast.is_colliding() and coll.has_method("explode") and distance_to_object < 3 :
 			coll.explode()
 
+func swing():
+	for i in range(100):
+		inst.rotation[0] += i
+	yield(get_tree().create_timer(0.5), "timeout")
+	for i in range(100):
+		inst.rotation[0] -= i
+
+func _addSword():
+	var index = 0
+	var model = "res://Sword.tscn"
+	
+	if model == null:
+		print('no Sword model loaded...')
+		return
+	
+	var swordScene = load(model)
+	inst = swordScene.instance()
+	inst.translation = Vector3( -1, -0.5, -1.5 )
+	get_node( '.' ).add_child( inst )
+
 func kill():
+	get_tree().call_group("zombies", "fol_time")
+	get_tree().call_group("special_zombies", "fol_time")
 	current_hp = current_hp - 1
 	if current_hp == 100:
 		print('You died.. try again.')
@@ -121,10 +151,9 @@ func next_level():
 		global.num_of_zombie_in_level = 0
 		#also updates HUD_current_level
 		get_tree().reload_current_scene()
-		
 	elif global.current_level == num_of_levels:
 		HUD_you_win._player_won()
-		
+
 func heal(amount):
 	if (current_hp + amount) > max_hp:
 		current_hp = max_hp

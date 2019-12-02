@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://rathalos_axe-sword/scene.gltf" type="PackedScene" id=1]
+
+[node name="Spatial" type="Spatial"]
+transform = Transform( 0.005, 0, 0, 0, 0.005, 0, 0, 0, 0.005, 0, 0, 0 )
+
+[node name="Scene Root" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.687664, 0.267185, -0.715414, -0.0814063, 2.14337, 0.0933225, 0.721451, -0.0128203, 0.69244, 0, 0, 0 )
