@@ -12,6 +12,8 @@ func _ready():
 
 
 func explode():
+	get_tree().call_group("zombies", "fol_time")
+	get_tree().call_group("special_zombies", "fol_time")
 	barrel_hp = barrel_hp - 1
 	
 	if barrel_hp <= 0:
