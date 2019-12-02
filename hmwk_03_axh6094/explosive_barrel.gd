@@ -35,7 +35,6 @@ func explode():
 			
 		#damages nearby barrels
 		var barrels = get_tree().get_nodes_in_group("explosive_barrel")
-		
 		for inst in barrels:
 			
 			if inst == self:
@@ -46,6 +45,29 @@ func explode():
 			var barrel_dist_to_barrel = inst_barrel_vec.distance_to(barrel_vec)
 			if barrel_dist_to_barrel < 4:
 				inst.explode()
+		
+		#damage nearby special zombies
+		var special_zombies = get_tree().get_nodes_in_group("special_zombies")
+		for inst in special_zombies:
+			if inst == self:
+				#skips self referencing barrel
+				continue
+			var inst_special_vec = inst.global_transform.origin
+			var special_dist_to_barrel = inst_special_vec.distance_to(barrel_vec)
+			if special_dist_to_barrel < 4:
+				inst.kill()
+	
+		#damage nearby npcs
+		var npc = get_tree().get_nodes_in_group("npc")
+		for inst in npc:
+			if inst == self:
+				#skips self referencing barrel
+				continue
+			
+			var inst_npc_vec = inst.global_transform.origin
+			var npc_dist_to_barrel = inst_npc_vec.distance_to(barrel_vec)
+			if npc_dist_to_barrel < 4:
+				inst.shot_npc()
 		
 		var explosion_inst = explodeScene.instance()
 		explosion_inst.translation = Vector3( barrel_vec[0], barrel_vec[1], barrel_vec[2] )

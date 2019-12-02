@@ -6,6 +6,7 @@ extends KinematicBody
 const MOVE_SPEED = 3
 var player = null
 var shot_at = false
+var dead = false
 var NPC_hp = 3
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,6 +14,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if dead:
+		return
 	var npc_vec = global_transform.origin
 	var closest_zombie_dist = 100
 	var closest_zombie_vec = Vector3(0, 0, 0)
@@ -67,7 +70,11 @@ func shot_npc():
 	shot_at = true
 	NPC_hp = NPC_hp - 1
 	if NPC_hp <= 0:
-		#kill npc
+		dead = true
+		rotation.z = rad2deg(40)
+		rotation.x = rad2deg(40)
+		$CollisionShape.disabled = true
+		remove_from_group("npc")
 		return
 
 
