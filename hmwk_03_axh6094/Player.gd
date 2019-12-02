@@ -35,6 +35,7 @@ func _ready():
 	get_tree().call_group("explosive_barrel", "set_player", self)
 	get_tree().call_group("key", "set_player", self)
 	get_tree().call_group("door", "set_player", self)
+	get_tree().call_group("npc", "set_player", self)
 	HUD_current_hp._update_current_hp(current_hp)
 	
 	
@@ -84,6 +85,9 @@ func _physics_process(delta):
 			
 		elif raycast.is_colliding() and coll.has_method("explode"):
 			coll.explode()
+			
+		elif raycast.is_colliding() and coll.has_method("shot_npc"):
+			coll.shot_npc()
 	
 	if Input.is_action_pressed("melee") and !anim_player.is_playing() and (time<0):
 		#add melee animation when created

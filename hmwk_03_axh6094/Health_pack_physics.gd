@@ -7,4 +7,4 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	rotate_object_local( Vector3(0, 1, 0), 0.05)
+	rotate_object_local( Vector3(0, 1, 0), 1.5 * delta)

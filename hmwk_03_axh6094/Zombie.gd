@@ -132,7 +132,6 @@ func recoil():
 		update_HUD()
 		player.add_to_zombie_kill_counter()
 
-
 func instant_kill_zombie():
 	dead = true
 	$CollisionShape.disabled = true
