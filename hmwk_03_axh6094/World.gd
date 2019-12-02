@@ -230,8 +230,6 @@ func _addInstantKill(model, instances):
 		return
 	
 	var instantKillScene = load(model)
-	print(instantKillScene)
-	print(instances)
 	for instList in instances:
 		var position = instList[0]
 		inst = instantKillScene.instance()

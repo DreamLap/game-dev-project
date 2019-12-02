@@ -2,7 +2,7 @@ extends KinematicBody
 
 const MOVE_SPEED = 3
 var HIT_POINTS = 4
-var MAX_DIST_TO_HUMAN = 25
+var MAX_DIST_TO_HUMAN = 20
 var rng = RandomNumberGenerator.new()
 onready var raycast = $RayCast
 onready var anim_player = $AnimationPlayer
@@ -28,12 +28,14 @@ func _ready():
 	self.set_player()
 
 func _physics_process(delta):
+		
 	if dead:
 		return
 	if player == null:
 		return
+	time += delta
 	var vec_to_player = player.translation - translation
-	var distance_to_player = sqrt(vec_to_player[0] * vec_to_player[0] + vec_to_player[2] * vec_to_player[2])
+	var distance_to_player = sqrt(pow(vec_to_player[0],2)+pow(vec_to_player[1],2)+pow(vec_to_player[2],2))
 	
 	vec_to_player = vec_to_player.normalized()
 	raycast.cast_to = vec_to_player * 1.5
@@ -47,8 +49,8 @@ func _physics_process(delta):
 			reset_attack = false
 			timer = 0
 		return
-	
-	if MAX_DIST_TO_HUMAN > distance_to_player:
+		
+	if ((distance_to_player < MAX_DIST_TO_HUMAN  ) or (time > 30)):
 		follow(vec_to_player, MOVE_SPEED, delta)
 	else:
 		wander(vec_to_player, MOVE_SPEED, delta)
@@ -64,9 +66,9 @@ func _physics_process(delta):
 			reset_attack = true
 			coll.kill()
 
-
 func follow(vec, spd, del):
-	time = 0
+	if (time > 40):
+		time = 0
 	collision_info = move_and_collide(vec * spd * del)
 
 func wander(vec, spd, del):
@@ -84,6 +86,8 @@ func wander(vec, spd, del):
 	vec = vec.normalized()
 	collision_info = move_and_collide(vec * spd * del)
 
+func fol_time():
+	time = 31
 
 func wait(del):
 	if (time > 20):
@@ -179,10 +183,7 @@ func recoil():
 		explode()
 		update_HUD()
 		player.add_to_zombie_kill_counter()
-		#killed all zombies
-		if player.get_number_of_zombies_killed() == global.num_of_zombie_in_level:
-			get_tree().call_group("player", "next_level")
-			
+
 func instant_kill_zombie():
 	dead = true
 	$CollisionShape.disabled = true
