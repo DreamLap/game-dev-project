@@ -46,6 +46,10 @@ func _ready():
 	var instant_kill = levelData.get ( 'INSTANT_KILL_POWER', null)
 	if instant_kill != null :
 		_addInstantKill( instant_kill.get( 'tscn', null), instant_kill.get( 'instances', []) )
+		
+	var npc = levelData.get ( 'NPC', null)
+	if npc != null :
+		_addNPC( npc.get( 'npc_tscn', null), npc.get( 'instance', []) )
 	
 func _addArena(arenaSize):
 	var wall
@@ -233,6 +237,21 @@ func _addInstantKill(model, instances):
 	for instList in instances:
 		var position = instList[0]
 		inst = instantKillScene.instance()
+		inst.translation = Vector3( position[0], position[1], position[2] )
+		get_node( '.' ).add_child( inst )
+		
+func _addNPC(model, instances):
+	var inst
+	
+	if model == null:
+		print('no NPC model loaded...')
+		return
+	
+	var NPCScene = load(model)
+	for instList in instances:
+		
+		var position = instList[0]
+		inst = NPCScene.instance()
 		inst.translation = Vector3( position[0], position[1], position[2] )
 		get_node( '.' ).add_child( inst )
 
