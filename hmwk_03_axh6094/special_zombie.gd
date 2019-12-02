@@ -155,6 +155,18 @@ func explode():
 		var special_dist_to_special = inst_special_vec.distance_to(special_zombie_pos)
 		if special_dist_to_special < 4:
 			inst.kill()
+	
+	#damage nearby npcs
+	var npc = get_tree().get_nodes_in_group("npc")
+	for inst in npc:
+		if inst == self:
+			#skips self referencing barrel
+			continue
+			
+		var inst_npc_vec = inst.global_transform.origin
+		var npc_dist_to_special = inst_npc_vec.distance_to(special_zombie_pos)
+		if npc_dist_to_special < 4:
+			inst.shot_npc()
 
 
 func set_player():
