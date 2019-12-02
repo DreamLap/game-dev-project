@@ -32,6 +32,7 @@ func _ready():
 	get_tree().call_group("explosive_barrel", "set_player", self)
 	get_tree().call_group("key", "set_player", self)
 	get_tree().call_group("door", "set_player", self)
+	get_tree().call_group("npc", "set_player", self)
 	HUD_current_hp._update_current_hp(current_hp)
 	
 	
@@ -80,6 +81,9 @@ func _physics_process(delta):
 			
 		elif raycast.is_colliding() and coll.has_method("explode"):
 			coll.explode()
+			
+		elif raycast.is_colliding() and coll.has_method("shot_npc"):
+			coll.shot_npc()
 	
 	if Input.is_action_pressed("melee") and !anim_player.is_playing():
 		#add melee animation when created
@@ -89,11 +93,8 @@ func _physics_process(delta):
 		
 		var player_vec = global_transform.origin
 		var object_vec = coll.global_transform.origin
-		print(global_transform.origin)
-		print(coll.global_transform.origin)
 		
 		var distance_to_object = sqrt( pow(player_vec[0] - object_vec[0], 2) + pow(player_vec[2] - object_vec[2], 2) )
-		print("dist to obj hit: ", distance_to_object)
 		
 		if raycast.is_colliding() and coll.has_method("kill") and coll.has_method("recoil") and distance_to_object < 3 :
 			anim_player.play("shoot")
