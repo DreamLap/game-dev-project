@@ -2,7 +2,7 @@ extends KinematicBody
 
 const MOVE_SPEED = 4
 const MOUSE_SENS = 0.5
-var num_of_levels = 3
+var num_of_levels = 2
 var current_hp = 8
 var max_hp = 8
 var zombies_killed = 0
@@ -135,7 +135,7 @@ func kill():
 	get_tree().call_group("zombies", "fol_time")
 	get_tree().call_group("special_zombies", "fol_time")
 	current_hp = current_hp - 1
-	if current_hp == 100:
+	if current_hp == 0:
 		print('You died.. try again.')
 		global.num_of_zombie_in_level = 0
 		get_tree().reload_current_scene()

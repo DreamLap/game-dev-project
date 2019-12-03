@@ -80,10 +80,10 @@ texture = ExtResource( 3 )
 hframes = 4
 
 [node name="HUD_zombies_left" type="Label" parent="CanvasLayer"]
-margin_left = 733.0
-margin_top = 4.0
-margin_right = 851.0
-margin_bottom = 25.0
+margin_left = 502.96
+margin_top = 7.87708
+margin_right = 620.96
+margin_bottom = 28.8771
 text = "HUD_zombies_left"
 script = ExtResource( 4 )
 
@@ -94,10 +94,10 @@ text = "HUD_current_level"
 script = ExtResource( 5 )
 
 [node name="HUD_current_hp" type="Label" parent="CanvasLayer"]
-margin_left = 1438.68
-margin_top = 3.0
-margin_right = 1542.68
-margin_bottom = 27.0
+margin_left = 913.982
+margin_top = 6.87708
+margin_right = 1017.98
+margin_bottom = 30.8771
 text = "HUD_current_hp"
 script = ExtResource( 6 )
 

@@ -1,7 +1,7 @@
 extends KinematicBody
 
 const MOVE_SPEED = 3
-var HIT_POINTS = 4
+var HIT_POINTS = 2
 var MAX_DIST_TO_HUMAN = 20
 var rng = RandomNumberGenerator.new()
 onready var raycast = $RayCast

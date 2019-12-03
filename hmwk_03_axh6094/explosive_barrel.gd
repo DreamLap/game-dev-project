@@ -21,6 +21,12 @@ func explode():
 		var player_vec = player.global_transform.origin
 		var player_dist_to_barrel = player_vec.distance_to(barrel_vec)
 		
+		var explosion_inst = explodeScene.instance()
+		explosion_inst.translation = Vector3( barrel_vec[0], barrel_vec[1], barrel_vec[2] )
+		get_node('../../..').add_child( explosion_inst )
+		yield(get_tree().create_timer(0.2), "timeout")
+		get_node('../../..').remove_child( explosion_inst )
+		
 		#damages nearby zombies
 		var zombies = get_tree().get_nodes_in_group("zombies")
 		for inst in zombies:
@@ -69,11 +75,6 @@ func explode():
 			if npc_dist_to_barrel < 4:
 				inst.shot_npc()
 		
-		var explosion_inst = explodeScene.instance()
-		explosion_inst.translation = Vector3( barrel_vec[0], barrel_vec[1], barrel_vec[2] )
-		get_node('../../..').add_child( explosion_inst )
-		yield(get_tree().create_timer(0.2), "timeout")
-		get_node('../../..').remove_child( explosion_inst )
 		
 		get_parent().get_parent().queue_free()
 		
